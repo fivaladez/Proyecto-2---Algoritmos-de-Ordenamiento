@@ -58,17 +58,121 @@ class Sorting():
 
         return tmp_data
 
-    def quick(self, data):
+# This function takes last element as pivot, places
+# the pivot element at its correct position in sorted
+# array, and places all smaller (smaller than pivot)
+# to left of pivot and all greater elements to right
+# of pivot
+    def partition(self, data, low, high):
         """"""
-        pass
+        tmp_data = list(data)
+        i = (low-1)         # index of smaller element
+        pivot = tmp_data[high]     # pivot
+
+        for j in range(low, high):
+
+            # If current element is smaller than the pivot
+            if tmp_data[j] < pivot:
+
+                # increment index of smaller element
+                i = i+1
+                tmp_data[i], tmp_data[j] = tmp_data[j], tmp_data[i]
+
+        tmp_data[i+1], tmp_data[high] = tmp_data[high], tmp_data[i+1]
+
+        return (i+1), tmp_data
+
+# The main function that implements QuickSort
+# arr[] --> Array to be sorted,
+# low  --> Starting index,
+# high  --> Ending index
+
+# Function to do Quick sort
+    def quick(self, data, low, high):
+        """"""
+        tmp_data = list(data)
+        if low < high:
+
+            # pi is partitioning index, tmp_data[p] is now
+            # at right place
+            pi, tmp_data = self.partition(tmp_data, low, high)
+
+            # Separately sort elements before
+            # partition and after partition
+            tmp_data = self.quick(tmp_data, low, pi-1)
+            tmp_data = self.quick(tmp_data, pi+1, high)
+
+        return tmp_data
+
+    def heapify(self, data, n, i):
+        tmp_data = list(data)
+        largest = i  # Initialize largest as root
+        l = 2 * i + 1     # left = 2*i + 1
+        r = 2 * i + 2     # right = 2*i + 2
+
+        # See if left child of root exists and is
+        # greater than root
+        if l < n and tmp_data[i] < tmp_data[l]:
+            largest = l
+
+        # See if right child of root exists and is
+        # greater than root
+        if r < n and tmp_data[largest] < tmp_data[r]:
+            largest = r
+
+        # Change root, if needed
+        if largest != i:
+            tmp_data[i], tmp_data[largest] = tmp_data[largest], tmp_data[i]  # swap
+
+            # Heapify the root.
+            self.heapify(tmp_data, n, largest)
+        
+        return tmp_data
 
     def heap(self, data):
         """"""
-        pass
+        tmp_data = list(data)
+        n = len(tmp_data)
+
+        # Build a maxheap.
+        for i in range(n, -1, -1):
+            tmp_data = self.heapify(tmp_data, n, i)
+
+        # One by one extract elements
+        for i in range(n-1, 0, -1):
+            tmp_data[i], tmp_data[0] = tmp_data[0], tmp_data[i]  # swap
+            tmp_data = self.heapify(tmp_data, i, 0)
+
+        return tmp_data
 
     def bucket(self, data):
         """"""
-        pass
+        tmp_data = list(data)
+        arr = []
+        slot_num = 10  # 10 means 10 slots, each
+        # slot's size is 0.1
+        for i in range(slot_num):
+            arr.append([])
+
+        # Put array elements in different buckets
+        for j in tmp_data:
+            index_b = int(slot_num * j)
+            if index_b < len(arr):
+                arr[index_b].append(j)
+
+        # Sort individual buckets
+        for i in range(slot_num):
+            if i < len(arr):
+                arr[i] = self.insertion(arr[i])
+
+        # concatenate the result
+        k = 0
+        for i in range(slot_num):
+            for j in range(len(arr[i])):
+                tmp_data[k] = arr[i][j]
+                k += 1
+
+        return tmp_data
 
 
 if __name__ == "__main__":
@@ -85,6 +189,24 @@ if __name__ == "__main__":
 
     start = time.time()
     print(sort_by.merge(data))
+    end = time.time()
+    insertion_time = end - start
+    # print("{}".format(insertion_time))
+
+    start = time.time()
+    print(sort_by.quick(data, 0, len(data)-1))
+    end = time.time()
+    insertion_time = end - start
+    # print("{}".format(insertion_time))
+
+    start = time.time()
+    print(sort_by.heap(data))
+    end = time.time()
+    insertion_time = end - start
+    # print("{}".format(insertion_time))
+
+    start = time.time()
+    print(sort_by.bucket(data))
     end = time.time()
     insertion_time = end - start
     # print("{}".format(insertion_time))
