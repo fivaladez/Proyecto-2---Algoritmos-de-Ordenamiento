@@ -7,6 +7,24 @@ import time
 class Sorting():
     """Clase encargada de proporcionar metodos con los algoritmos de ordenamiento"""
 
+    def bubble(self, data):
+        """Bubble sort algorithm"""
+        tmp_data = list(data)
+        swapping_count = 1
+        length_data = len(tmp_data)
+
+        while swapping_count > 0:
+            swapping_count = 0
+            index = 1 # Start at position 2 of the list
+            while index < length_data:
+                tmp_vale = tmp_data[index]
+                if tmp_data[index] < tmp_data[index-1]:
+                    tmp_data[index] = tmp_data[index-1]
+                    tmp_data[index-1] = tmp_vale
+                    swapping_count += 1
+                index += 1
+        return tmp_data
+
     def insertion(self, data):
         """"""
         tmp_data = list(data)
@@ -58,11 +76,6 @@ class Sorting():
 
         return tmp_data
 
-# This function takes last element as pivot, places
-# the pivot element at its correct position in sorted
-# array, and places all smaller (smaller than pivot)
-# to left of pivot and all greater elements to right
-# of pivot
     def partition(self, data, low, high):
         """"""
         tmp_data = list(data)
@@ -82,12 +95,6 @@ class Sorting():
 
         return (i+1), tmp_data
 
-# The main function that implements QuickSort
-# arr[] --> Array to be sorted,
-# low  --> Starting index,
-# high  --> Ending index
-
-# Function to do Quick sort
     def quick(self, data, low, high):
         """"""
         tmp_data = list(data)
@@ -126,7 +133,7 @@ class Sorting():
 
             # Heapify the root.
             self.heapify(tmp_data, n, largest)
-        
+
         return tmp_data
 
     def heap(self, data):
@@ -177,36 +184,42 @@ class Sorting():
 
 if __name__ == "__main__":
     # data = random.sample(range(0, 1000000), 5)
-    data = [random.randrange(0, 10000000, 500) for i in range(5000)]
+    data = [random.randrange(0, 100, 5) for i in range(50)]
     sort_by = Sorting()
     print("Initial data {}\n".format(data))
 
     start = time.time()
-    sort_by.insertion(data)
+    print(sort_by.insertion(data))
     end = time.time()
     insertion_time = end - start
     print("Insertion time: {}\n".format(insertion_time))
 
     start = time.time()
-    sort_by.merge(data)
+    print(sort_by.merge(data))
     end = time.time()
     insertion_time = end - start
     print("Merge time: {}\n".format(insertion_time))
 
     start = time.time()
-    sort_by.quick(data, 0, len(data)-1)
+    print(sort_by.quick(data, 0, len(data)-1))
     end = time.time()
     insertion_time = end - start
     print("Quick time: {}\n".format(insertion_time))
 
     start = time.time()
-    sort_by.heap(data)
+    print(sort_by.heap(data))
     end = time.time()
     insertion_time = end - start
     print("Heap time: {}\n".format(insertion_time))
 
     start = time.time()
-    sort_by.bucket(data)
+    print(sort_by.bucket(data))
     end = time.time()
     insertion_time = end - start
     print("Bucket time: {}\n".format(insertion_time))
+
+    start = time.time()
+    print(sort_by.bubble(data))
+    end = time.time()
+    insertion_time = end - start
+    print("Bubble time: {}\n".format(insertion_time))
