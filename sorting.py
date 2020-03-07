@@ -177,36 +177,36 @@ class Sorting():
 
 if __name__ == "__main__":
     # data = random.sample(range(0, 1000000), 5)
-    data = [random.randrange(0, 10, 1) for i in range(5)]
+    data = [random.randrange(0, 10000000, 500) for i in range(5000)]
     sort_by = Sorting()
     print("Initial data {}\n".format(data))
 
     start = time.time()
-    print(sort_by.insertion(data))
+    sort_by.insertion(data)
     end = time.time()
     insertion_time = end - start
-    # print("{}".format(insertion_time))
+    print("Insertion time: {}\n".format(insertion_time))
 
     start = time.time()
-    print(sort_by.merge(data))
+    sort_by.merge(data)
     end = time.time()
     insertion_time = end - start
-    # print("{}".format(insertion_time))
+    print("Merge time: {}\n".format(insertion_time))
 
     start = time.time()
-    print(sort_by.quick(data, 0, len(data)-1))
+    sort_by.quick(data, 0, len(data)-1)
     end = time.time()
     insertion_time = end - start
-    # print("{}".format(insertion_time))
+    print("Quick time: {}\n".format(insertion_time))
 
     start = time.time()
-    print(sort_by.heap(data))
+    sort_by.heap(data)
     end = time.time()
     insertion_time = end - start
-    # print("{}".format(insertion_time))
+    print("Heap time: {}\n".format(insertion_time))
 
     start = time.time()
-    print(sort_by.bucket(data))
+    sort_by.bucket(data)
     end = time.time()
     insertion_time = end - start
-    # print("{}".format(insertion_time))
+    print("Bucket time: {}\n".format(insertion_time))
